@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Traits\ApiResponser;
+use Illuminate\Support\Facades\Auth;
 use DB;
 use App\Services\User2Service;
 
@@ -15,11 +17,12 @@ Class User2Controller extends Controller{
 
     public function __construct(User2Service $user2Service){
         $this->user2Service = $user2Service;
+        $this->middleware('auth:api', ['except' => ['login']]);
     }
 
 
     public function index(){ 
-            return $this->successResponse($this->user2Service->obtainUsers2());
+        return $this->successResponse($this->user2Service->obtainUsers2());
     }
 
 
